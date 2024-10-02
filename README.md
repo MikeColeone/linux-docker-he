@@ -38,26 +38,26 @@ sudo yum install -y yum-utils
 切换到国内源 添加yum软件源
 
 ```
-
-```
-
 sudo yum-config-manager \
-    --add-repo \
-    https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+ --add-repo \
+ https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 
 $ sudo sed -i 's/download.docker.com/mirrors.aliyun.com\/docker-ce/g' /etc/yum.repos.d/docker-ce.repo
 
-# 官方源
+
+
+官方源
 
 # $ sudo yum-config-manager \
 
 # --add-repo \
 
 # https://download.docker.com/linux/centos/docker-ce.repo
-
 ```
-可能会报错**Error: Cannot find a valid baseurl for repo: base**
 
+
+
+可能会报错**Error: Cannot find a valid baseurl for repo: base** 
 1. 检查网络： ping www.baidu.com
 
 2. 网络不通：可能是配置的时候没有设置网络连接 重新安装
@@ -66,7 +66,6 @@ $ sudo sed -i 's/download.docker.com/mirrors.aliyun.com\/docker-ce/g' /etc/yum.r
 
 4. ```vim
    vi /etc/yum.repos.d/CentOS-Base.repo
-```
 
 5. 注释掉mirrorlist
 
@@ -106,23 +105,44 @@ $ sudo sed -i 's/download.docker.com/mirrors.aliyun.com\/docker-ce/g' /etc/yum.r
     
     ```vim
     {
-        "registry-mirrors": [
-            "https://ustc-edu-cn.mirror.aliyuncs.com/",
+    "registry-mirrors": [
+    	"https://ustc-edu-cn.mirror.aliyuncs.com/",
             "https://ccr.ccs.tencentyun.com/",
-            "https://docker.m.daocloud.io/"
-        ]
+            "https://docker.m.daocloud.io/",
+             "https://docker.registry.cy",
+            "https://docker.registry.cyou",
+            "https://docker-cf.registry.cyou",
+            "https://dockercf.jsdelivr.fyi",
+            "https://docker.jsdelivr.fyi",
+            "https://dockertest.jsdelivr.fyi",
+            "https://mirror.aliyuncs.com",
+            "https://dockerproxy.com",
+            "https://mirror.baidubce.com",
+            "https://docker.m.daocloud.io",
+            "https://docker.nju.edu.cn",
+            "https://docker.mirrors.sjtug.sjtu.edu.cn",
+            "https://docker.mirrors.ustc.edu.cn",
+            "https://mirror.iscas.ac.cn",
+            "https://docker.rainbond.cc"
+     ]
     }
     ```
+
+12. 重启
+    
+    > systemctl daemon-reload 
+    > 
+    > systemctl restart docker
 
 ## Update
 
 2024-10-02.docker compose
 
+**镜像是独立于Docker引擎的，即使卸载了Docker，镜像文件仍然会存在于本地的文件系统中**
+
 1. 在运行compose.yaml文件时出现该报错
 
 > (root) Additional property ***** is not allowed
-
-
 
 解决方法: docker-compose2.x之后需要修改docker-compose.yaml文件第一行加上services: 字段
 
@@ -139,10 +159,23 @@ $ sudo sed -i 's/download.docker.com/mirrors.aliyun.com\/docker-ce/g' /etc/yum.r
    1. docker logs [containner]
    
    2. 出现 `Host '172.19.0.3' is blocked because of many connection errors` 错误的原因是 MySQL 服务器由于过多连接错误阻止了特定 IP 地址的访问。
+
+3. 获取 GPG 密钥失败：[Errno 14] curl#35 - "TCP connection reset by peer"
    
-   3. 
-
-
+   1. 原因分析:网络问题
+   
+   2. 解决方法： 鉴于国内网络问题，强烈建议使用国内源，官方源请在注释中查看。
+      
+      执行下面的命令添加 `yum` 软件源：(这个只会影响软件包的管理 并不会影响docker拉取镜像的速度)
+      
+      ```vim
+       sudo yum-config-manager \
+          --add-repo \
+          https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+      
+      $ sudo sed -i 's/download.docker.com/mirrors.aliyun.com\/docker-ce/g' /etc/yum.repos.d/docker-ce.repo
+      
+      ```
 
 <hr/>
 
