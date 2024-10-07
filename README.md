@@ -4,6 +4,8 @@
 
 仅以此仓库记录个人学习docker过程 以及compose.yaml文件的相关配置
 
+容器：软件在不同的运行环境（例如开发环境、测试环境、生产环境）之间切换时，通常会遇到依赖不一致、系统配置差异等问题，这可能导致软件无法正常运行。容器通过将应用程序及其所有依赖（包括库、配置文件等）打包在一起，提供了一个一致的、隔离的运行环境。
+
 ## Enviroments
 
 - [centos-7.9.2009-isos-x86_64安装包下载_开源镜像站-阿里云](https://mirrors.aliyun.com/centos/7.9.2009/isos/x86_64/)
@@ -55,9 +57,8 @@ $ sudo sed -i 's/download.docker.com/mirrors.aliyun.com\/docker-ce/g' /etc/yum.r
 # https://download.docker.com/linux/centos/docker-ce.repo
 ```
 
-
-
 可能会报错**Error: Cannot find a valid baseurl for repo: base** 
+
 1. 检查网络： ping www.baidu.com
 
 2. 网络不通：可能是配置的时候没有设置网络连接 重新安装
@@ -66,6 +67,7 @@ $ sudo sed -i 's/download.docker.com/mirrors.aliyun.com\/docker-ce/g' /etc/yum.r
 
 4. ```vim
    vi /etc/yum.repos.d/CentOS-Base.repo
+   ```
 
 5. 注释掉mirrorlist
 
@@ -106,7 +108,7 @@ $ sudo sed -i 's/download.docker.com/mirrors.aliyun.com\/docker-ce/g' /etc/yum.r
     ```vim
     {
     "registry-mirrors": [
-    	"https://ustc-edu-cn.mirror.aliyuncs.com/",
+        "https://ustc-edu-cn.mirror.aliyuncs.com/",
             "https://ccr.ccs.tencentyun.com/",
             "https://docker.m.daocloud.io/",
              "https://docker.registry.cy",
@@ -135,6 +137,112 @@ $ sudo sed -i 's/download.docker.com/mirrors.aliyun.com\/docker-ce/g' /etc/yum.r
     > systemctl restart docker
 
 ## Update
+
+2024-10-07
+
+桥接网络和NAT网络
+
+桥接网络之下虚拟机直接连接到宿主机的物理网卡 虚拟机可以访问外界网络 有自己的IP
+
+NAT网络之下的虚拟机不需要占用额外的IP 虚拟机可以访问外部网络 但是外部不可以直接访问虚拟机 更安全 虚拟机不能直接与局域网内其他设备通信，除非配置了端口转发 
+
+<br/>
+
+常用命令：
+
+1. 清屏
+   
+   > clear
+
+2. 快速删除
+   
+   > ctrl+U
+
+3. 列出目录内容
+   
+   > ls
+
+4. 显示当前目录文件和子目录
+   
+   > ls -l
+
+5. 罗列出详细信息 权限大小 修改时间
+   
+   > ls -a
+
+6. 进入目录
+   
+   > cd + 目录名
+
+7. 进入指定目录
+   
+   > cd /etc/docker
+
+8. 退出目录
+   
+   > cd ..
+
+9. 返回上一级
+   
+   > cd -
+
+10. 查看当前目录
+    
+    > pwd
+
+11. 创建目录
+    
+    > mkdir + 目录名
+
+12. 删除目录
+    
+    > rmdir
+
+13. 删除空目录
+    
+    > rm -r 目录名
+
+14. 重命名
+    
+    > mv 就目录 新目录
+
+15. 查看操作系统版本
+    
+    > cat /etc/os-release
+
+16. 查看内核版本
+    
+    > uname -r
+
+17. 查看CPU
+    
+    > lscpu
+
+18. 内存使用情况
+    
+    > free -h
+
+19. 磁盘占用
+    
+    > df -h
+
+20. 删除整行
+    
+    > dd
+
+2024-10-06
+
+如果你在你的本地计算机上运行了一台虚拟机，这台计算机就是**宿主机**。即使你通过 SSH 远程连接到这台虚拟机，虚拟机所需的资源（CPU、内存、磁盘等）仍然来自你的本地计算机（宿主机）。只是通过 SSH，你在远程设备上操作虚拟机，而不直接使用宿主机的图形界面。
+
+1. 节约开销 减少图形界面开销
+
+2. 仅仅处理命令行 清量
+
+3. SSH 允许你从任何地方通过网络远程管理虚拟机，无需物理接触宿主机或虚拟机所在的设备。即便你不在宿主机旁边，也能通过网络完成一切管理任务。
+
+4. 即使虚拟机和宿主机位于远端（如服务器上），你也能远程连接虚拟机进行操作，不需要在设备旁边。
+
+<hr/>
 
 2024-10-02.docker compose
 
@@ -174,7 +282,6 @@ $ sudo sed -i 's/download.docker.com/mirrors.aliyun.com\/docker-ce/g' /etc/yum.r
           https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
       
       $ sudo sed -i 's/download.docker.com/mirrors.aliyun.com\/docker-ce/g' /etc/yum.repos.d/docker-ce.repo
-      
       ```
 
 <hr/>

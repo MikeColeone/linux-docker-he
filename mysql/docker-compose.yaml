@@ -1,0 +1,11 @@
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/config/mysql.cnf:/etc/mysql/my.cnf
+    ports:
+      - "3306:3306"
