@@ -138,6 +138,31 @@ $ sudo sed -i 's/download.docker.com/mirrors.aliyun.com\/docker-ce/g' /etc/yum.r
 
 ## Update
 
+2024-10-09
+
+删除卷的时候出现volume is in use
+
+这通常意味着该卷仍然被某个容器占用或与某个容器绑定。因此，在卷未被释放或解除绑定之前，Docker 不允许删除该卷。
+
+> docker ps -a --filter volume=<volume_name>
+> 
+> docker stop <container_name_or_id>
+> 
+> docker rm <container_name_or_id> #直接强制删除就行
+> 
+> docker volume rm -f <volume_name>
+> 
+> docker volume prune #移除未使用的卷
+> 
+> docker rm -v #顺手删除卷
+
+docker不能仅仅通过depends_on确保依赖的零一个容器完全启动
+
+健康检查
+
+> healthcheck: test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+>  interval: 10s # 每10秒执行一次健康检查 timeout: 5s # 每次检查的超时时间为5秒 retries: 5 # 连续5次健康检查失败后视为容器不可用 start_period: 30s
+
 2024-10-07
 
 桥接网络和NAT网络
