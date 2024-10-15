@@ -138,6 +138,26 @@ $ sudo sed -i 's/download.docker.com/mirrors.aliyun.com\/docker-ce/g' /etc/yum.r
 
 ## Update
 
+2024-10-15
+
+运行`docker compose`命令时，Compose 会在当前工作目录中按以下优先顺序寻找配置文件：
+
+1. **compose.yaml**（首选）
+2. **compose.yml**
+
+这两个是推荐的文件命名规则。如果这两个文件都存在，Docker Compose 会优先选择 **compose.yaml**，因为这是 Docker Compose 规范的最新标准。
+
+此外，为了向后兼容较早版本的 Compose，Compose 还会支持以下文件名：
+
+1. **docker-compose.yaml**
+2. **docker-compose.yml**
+
+如果你的项目中同时存在 `compose.yaml` 和 `docker-compose.yaml`，系统也会优先选择 `compose.yaml`，因为它是最新的规范。
+
+这个机制确保了项目的配置文件可以兼容不同版本的 Docker Compose，同时遵循最新的命名规范。
+
+
+
 2024-10-09
 
 删除卷的时候出现volume is in use
